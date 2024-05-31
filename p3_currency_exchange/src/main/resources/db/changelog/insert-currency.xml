@@ -42,7 +42,6 @@
             <column name="value" value="34.6752"/>
             <column name="iso_num_code" value="981"/>
         </insert>
-
     </changeSet>
 
 </databaseChangeLog>

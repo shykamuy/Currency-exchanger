@@ -7,6 +7,12 @@ import ru.skillbox.currency.exchange.dto.CurrencyDto;
 import ru.skillbox.currency.exchange.entity.Currency;
 import ru.skillbox.currency.exchange.mapper.CurrencyMapper;
 import ru.skillbox.currency.exchange.repository.CurrencyRepository;
+import ru.skillbox.currency.exchange.response.CurrencyData;
+import ru.skillbox.currency.exchange.response.CurrencyResponse;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Slf4j
 @Service
@@ -29,6 +35,14 @@ public class CurrencyService {
 
     public CurrencyDto create(CurrencyDto dto) {
         log.info("CurrencyService method create executed");
-        return  mapper.convertToDto(repository.save(mapper.convertToEntity(dto)));
+        return mapper.convertToDto(repository.save(mapper.convertToEntity(dto)));
+    }
+
+    public List<CurrencyData> getAll() {
+        List<Currency> currencyList = repository.findAll();
+        List<CurrencyData> currencyDataList = currencyList.stream().map(currency -> {
+            return new CurrencyData(currency.getName(), currency.getValue());
+        }).collect(Collectors.toList());
+        return currencyDataList;
     }
 }
